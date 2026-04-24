@@ -33,6 +33,7 @@ Terraform - Automate cloud setup
 ```
 
 ## Project Structure
+```
 ml-monitoring-system/
 │
 ├── data/
@@ -64,6 +65,7 @@ ml-monitoring-system/
 ├── app.py
 ├── requirements.txt
 └── README.md
+```
 
 ## Install System Setup
 ```
