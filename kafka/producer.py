@@ -15,6 +15,8 @@ while True:
         "label" : random.randint(0,1) # Generate a random label (0 or 1)
     }
 
+    print("Sending", data)
+
     producer.send("ml-stream", data) # Send this data to Kafka topic named "ml-stream"
 
-    time.sleep(1) # Wait for one second before sending next message
+    time.sleep(2) # Wait for two second before sending next message
