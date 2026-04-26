@@ -1,34 +1,31 @@
 import mlflow 
 import mlflow.sklearn
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
+import joblib # To save/load trained models
 import pandas as pd
 
-df = pd.read_csv("data/sample_stream.csv") # load from csv file to DataFrame
-X = df.drop("label", axis = 1) # Remove target column "label"
+df = pd.read_csv("data/sample_stream.json") # laod data from a JSON file into a DataFrame
 
-# Predict - Target variable
-y = df["label"]
-
-# Splitting into training and testing
-X_train, X_test, y_train, y_test = train_test_split(X,y)
+X = df[["feature1", "feature2"]] # input features - independent variables
+y = df["label"] # target variable - what we want to predict
 
 model = RandomForestClassifier()
 
-# Training the model using training data
-model.fit(X_train, y_train)
+# Training the model using all the data
+model.fit(X, y)
 
-# Evaluate model performance on test data - returns accuracy
-accuracy = model.score(X_test, y_test)
+# Evaluate model accuracy on same data (training accuracy)
+accuracy = model.score(X, y)
 
-# Start an MLflow experiment run
-mlflow.start_run()
 
-# Log the accuracy metric to MLflow
-mlflow.log_metric("accuracy", accuracy)
+# Create a MLflow experiment named "ml-monitoring"
+mlflow.set_experiment("ml-monitoring")
 
-# Save the log of trained model in MLflow
-mlflow.sklearn.log_model(model, "model")
+# Start a new MLflow run - context manager handles start/end
+with mlflow.start_run():
+    mlflow.log_metric("accuracy", accuracy) # Log accuracy metric to MLflow
+    mlflow.sklearn.log_model(model, "model") # Save/log trained model in MLflow
 
-# End the Mlflow run
-mlflow.end_run()
+joblib.dump(model, "model/latest_model.pkl") # Save the trained model locally as a .pkl file
+
+print("Model tained. Accuracy:", accuracy)
