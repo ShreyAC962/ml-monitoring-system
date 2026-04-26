@@ -1,0 +1,9 @@
+global:
+  scrape_interval : 5s  # Prometheus will collect(scrape) metrics every 5 seconds
+
+scrape_configs:
+  - job_name : 'ml-monitor' # Name of the monitoring job
+
+    static_configs:
+    # Prometheus will scrape metrics from http://localhost:8000
+    - targets: ['localhost:8000'] # Endpoint where metrics are exposed
