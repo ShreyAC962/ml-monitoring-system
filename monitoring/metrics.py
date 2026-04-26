@@ -10,4 +10,5 @@ def update_metrics(acc, drift):
 
 # Prometheus can scrape metrics from: http://localhost:8000
 # To start a web server on port 8000 to expose metrics
-start_http_server(8000)
+def start_metrics_server():
+    start_http_server(8000)
