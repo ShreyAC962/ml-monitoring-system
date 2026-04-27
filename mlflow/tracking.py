@@ -12,5 +12,8 @@ def get_best_accuracy():
         order_by=["metrics.accuracy DESC"] # Sort runs by an accuracy in descending order(best first)
     )
 
+    if not runs:
+        return 0
+
     # Return accuracy of the best run (top result)
     return runs[0].data.metrics["accuracy"]
